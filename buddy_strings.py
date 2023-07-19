@@ -38,36 +38,42 @@ class Solution:
     def buddyStrings(self, s: str, goal: str) -> bool:
         if len(s) != len(goal):
             return False
-
+        # contain simmilar characters
+        for char in s:
+            if char not in goal:
+                return False
+                
+        """ Only two characters"""
         if len(s) == 2 and len(goal) == 2:
             if s[0] == goal[1] and s[1] == goal[0]:
                 return True
+        # both strings are identical
         if len(s) > 2 and len(goal) > 2:
-        #    char_count = {}
-        #    for char in s:
-        #        if char in char_count:
-        #            char_counts[char] += 1
-        #            if char_count[char] > len(s) // 2:
-        #                return True
            if s == goal:    
               for q in range(len(s)):
-                  for r in range(q+1, len(s)):
-                      if s[q] == goal[r] and s[q] == goal[r]:
+                  for r in range(q+1, len(s)-1):
+                      if s[q] == goal[r] and s[r] == goal[q]:
                           return True
+
         count = 0
         arr_diff = []
         for i in range(len(s)):
-            char_count = {}
             if s[i] != goal[i]:
                 count += 1
                 arr_diff.append(i)
+                if count > 2:
+                    return False
+                if s.count(s[i]) > 1 and s[i] == goal[i]:
+                    return False
+                
             for j in range(i+1, len(s)-1):
+                # if j in char_count:
+                #     char_count[j] += 1
+                #     if char_count[j] > len(s) // 2:
+                #         return False
                 if s[i:j+1] == s[j+1:j+1+(j-i+1)] and s[j] == goal[j]:
                     return True
-                if j in char_count:
-                    char_count[j] += 1
-                    if char_count[j] > len(s) // 2:
-                        return False
+                
         if count != 2:
             return False
         if len(arr_diff) != 2:
