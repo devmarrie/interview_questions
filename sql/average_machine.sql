@@ -63,30 +63,34 @@
 -- Machine 1's average time is ((1.550 - 0.550) + (1.420 - 0.430)) / 2 = 0.995
 -- Machine 2's average time is ((4.512 - 4.100) + (5.000 - 2.500)) / 2 = 1.456
 
-WITH comp AS (
+WITH start_time AS (
     SELECT machine_id,
            process_id,
-           timestamp AS start,
-           LEAD(timestamp) OVER(
-               PARTITION BY machine_id, process_id
-               ORDER BY machine_id, process_id
-            ) AS end
+           timestamp AS start
     FROM Activity
+    WHERE activity_type = 'start'
     ORDER BY machine_id, process_id
 ),
-diff AS (
+end_time AS (
     SELECT machine_id,
-       process_id,
-       start,
-       end,
+           process_id,
+           timestamp AS end
+    FROM Activity
+    WHERE activity_type = 'end'
+    ORDER BY machine_id, process_id
+),
+diff AS(
+    SELECT start_time.machine_id,
+       start_time.process_id,
        end - start AS diff
-    FROM comp
-    WHERE end - start IS NOT NULL
+    FROM start_time
+    INNER JOIN end_time
+       ON start_time.machine_id = end_time.machine_id
+       AND start_time.process_id = end_time.process_id
 )
 SELECT machine_id,
        ROUND(AVG(diff), 3) AS processing_time
 FROM diff
-GROUP BY machine_id
-ORDER BY machine_id ASC;
+GROUP BY machine_id;
 
 
