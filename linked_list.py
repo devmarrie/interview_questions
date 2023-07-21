@@ -29,17 +29,17 @@ class LinkedList:
     def delete(self, data):
         if not self.head:
             return
-        
+
         if self.head.data == data:
             self.head = self.head.next
             return
-        
-        curr_node = self.head
-        while curr_node.next:
-            if curr_node.next.data == data:
-                curr_node.next == curr_node.next.next
+
+        current_node = self.head
+        while current_node.next:
+            if current_node.next.data == data:
+                current_node.next = current_node.next.next
                 return
-            curr_node = curr_node.next
+            current_node = current_node.next
 
     def display(self):
         current_node = self.head
