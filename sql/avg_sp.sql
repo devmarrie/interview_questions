@@ -86,4 +86,7 @@ sums AS(
     FROM full_table
     GROUP BY product_id
 )
+SELECT product_id,
+       ROUND((prices/sum_unit), 2) AS average_price
+FROM sums;
 
