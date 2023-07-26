@@ -79,4 +79,11 @@ WITH full_table AS (
         ON p.product_id = u.product_id
     WHERE u.purchase_date BETWEEN p.start_date AND p.end_date
 ),
+sums AS(
+    SELECT product_id,
+           SUM(units) AS sum_unit,
+           SUM(units * price) AS prices
+    FROM full_table
+    GROUP BY product_id
+)
 
