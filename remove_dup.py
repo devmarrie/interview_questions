@@ -44,6 +44,7 @@
 #     1 <= nums.length <= 3 * 104
 #     -100 <= nums[i] <= 100
 #     nums is sorted in non-decreasing order.
+from typing import List
 
 def removeDuplicates(nums: List[int]) -> int:
         k = 1  
