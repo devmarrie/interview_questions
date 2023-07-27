@@ -63,3 +63,17 @@
 -- | 2           | 2.50          |
 -- +-------------+---------------+
 -- Explanation: The average experience years for the first project is (3 + 2 + 1) / 3 = 2.00 and for the second project is (3 + 2) / 2 = 2.50
+
+WITH full_table AS (
+  SELECT p.project_id,
+         p.employee_id,
+         e.name,
+         e.experience_years
+  FROM Project AS p
+    LEFT JOIN Employee AS e
+    ON p.employee_id = e.employee_id
+)
+SELECT project_id,
+       ROUND(AVG(experience_years), 2) AS average_years
+FROM  full_table
+GROUP BY project_id;
