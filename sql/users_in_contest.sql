@@ -75,3 +75,19 @@
 -- Alice and Alex registered in contest 215 and the percentage is ((2/3) * 100) = 66.67%
 -- Bob registered in contest 207 and the percentage is ((1/3) * 100) = 33.33%
 
+WITH joins AS (
+    SELECT u.user_id,
+           u.user_name,
+           r.contest_id
+    FROM Users AS u
+        LEFT JOIN Register AS r
+        ON u.user_id = r.user_id
+)
+SELECT contest_id,
+       ROUND(((COUNT(user_name) / (
+           SELECT COUNT(*) AS total
+           FROM Users
+       ) ) * 100), 2) AS percentage
+FROM joins
+GROUP BY contest_id
+ORDER BY percentage DESC,  contest_id ASC;
