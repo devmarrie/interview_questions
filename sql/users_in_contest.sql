@@ -80,7 +80,7 @@ WITH joins AS (
            u.user_name,
            r.contest_id
     FROM Users AS u
-        LEFT JOIN Register AS r
+        INNER JOIN Register AS r
         ON u.user_id = r.user_id
 )
 SELECT contest_id,
