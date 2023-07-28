@@ -13,11 +13,13 @@
 
 # Input: nums = [2,2,1,1,1,2,2]
 # Output: 2
-
+from typing import List
  
 def majorityElement(nums: List[int]) -> int:
         n = len(nums)
         count = {}
         for val in nums:
             count[val] = count.get(val, 0) + 1
-        
+        for key,value in count.items():
+            if value > n // 2:
+               return key
