@@ -60,4 +60,8 @@
 
 -- Cat queries quality equals ((2 / 5) + (3 / 3) + (4 / 7)) / 3 = 0.66
 -- Cat queries poor_ query_percentage is (1 / 3) * 100 = 33.33
-
+WITH ctgroups AS(
+  SELECT query_name, COUNT(*) AS ctall
+  FROM Queries
+  GROUP BY query_name
+),
