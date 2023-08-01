@@ -19,14 +19,12 @@
 # Output: 0
 # Explanation: In this case, no transactions are done and the max profit = 0.
 
+
 def maxProfit(self, prices: List[int]) -> int:
-        buy = min(prices)
-        print(buy)
-        for i in range(len(prices)):
-            if prices[i] == buy:
-                for j in range(1+1,len(prices)):
-                  sell = prices[j:]
-                  max_sell = max(sell)
-            else:
-                return 0
-        return  max_sell - buy
+        buy = prices[0]
+        max_profit = 0
+        for i in range(1,len(prices)):
+            sell = prices[i]
+            max_profit = max(max_profit, sell-buy)
+            buy = min(sell,buy)
+        return max_profit
