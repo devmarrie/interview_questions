@@ -1,19 +1,19 @@
 # Write your MySQL query statement below
 WITH status AS (
-  SELECT trans_date,
-         COUNT(CASE WHEN state = 'approved' THEN 1 END) AS approved,
-         SUM(CASE WHEN state = 'approved' THEN amount END) AS tapp
+  SELECT DATE_FORMAT(trans_date, '%Y-%m') AS app_date,
+         COUNT(state) AS approved,
+         SUM(amount) AS tapp
   FROM Transactions
-  # WHERE state = 'approved'
-  GROUP BY trans_date,country
+  WHERE state = 'approved'
+  GROUP BY DATE_FORMAT(trans_date, '%Y-%m'),country
 )
 SELECT DATE_FORMAT(t.trans_date, '%Y-%m') AS month,
        t.country,
        COUNT(*) AS trans_count,
        s.approved AS approved_count,
-       SUM(amount) AS trans_total_amount,
+       SUM(t.amount) AS trans_total_amount,
        s.tapp AS approved_total_amount
 FROM Transactions AS t
 LEFT JOIN status AS s
-ON t.trans_date = s.trans_date
+ON DATE_FORMAT(t.trans_date, '%Y-%m') = s.app_date
 GROUP BY DATE_FORMAT(t.trans_date, '%Y-%m'), t.country;
