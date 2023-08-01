@@ -18,9 +18,9 @@
 # Input: prices = [7,6,4,3,1]
 # Output: 0
 # Explanation: In this case, no transactions are done and the max profit = 0.
+from typing import List
 
-
-def maxProfit(self, prices: List[int]) -> int:
+def maxProfit(prices: List[int]) -> int:
         buy = prices[0]
         max_profit = 0
         for i in range(1,len(prices)):
