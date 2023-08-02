@@ -1,3 +1,4 @@
+# Write your MySQL query statement below
 WITH first_orders AS (
     SELECT delivery_id,
            customer_id,
@@ -17,7 +18,5 @@ imm_sch AS (
               END) AS status
        FROM first_orders
 )
-SELECT ROUND((COUNT(*) / (SELECT COUNT(1) FROM imm_sch)) * 100, 2) AS immediate_percentage
+SELECT ROUND((SUM(CASE WHEN status = 'immidiate' THEN 1 ELSE 0 END) / COUNT(1)) * 100, 2) AS immediate_percentage
 FROM imm_sch
-WHERE status = 'immidiate'
-GROUP BY status
