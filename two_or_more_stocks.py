@@ -1,3 +1,4 @@
+from typing import List
 def maxProfit(prices: List[int]) -> int:
         max_profit = 0
 
