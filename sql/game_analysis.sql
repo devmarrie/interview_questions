@@ -4,19 +4,22 @@ WITH last_game AS (
          device_id,
          event_date,
          games_played,
-         COALESCE(LEAD(event_date)OVER(PARTITION BY device_id, player_id), 0) AS last_play
+         COALESCE(LEAD(event_date)OVER(PARTITION BY player_id), 0) AS last_play
   FROM Activity
   ORDER BY player_id ASC
 ),
 last_date AS(
   SELECT player_id,
-         (CASE WHEN  last_play <> 0
+         event_date,
+         last_play,
+         (CASE WHEN DATE_ADD(event_date, INTERVAL 1 DAY) = last_play
          THEN 1 ELSE 0
          END) AS prev
   FROM last_game
 ),
 total AS (
-  SELECT player_id, SUM(prev) AS s
+  SELECT player_id,
+       SUM(prev) AS s
   FROM last_date
   GROUP BY player_id
 )
