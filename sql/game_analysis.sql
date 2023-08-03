@@ -10,23 +10,18 @@ WITH last_game AS (
 ),
 last_date AS(
   SELECT player_id,
-        #  event_date,
-        #  last_play,
          (CASE WHEN  last_play <> 0
          THEN 1 ELSE 0
          END) AS prev
   FROM last_game
-  # WHERE last_play <> 0
-  # GROUP BY player_id
+),
+total AS (
+  SELECT player_id, SUM(prev) AS s
+  FROM last_date
+  GROUP BY player_id
 )
-# # total AS (
-#   SELECT player_id,
-#        COUNT(*) AS all
-#   FROM last_game
-#   GROUP BY player_id
-# # )
-SELECT ROUND((COUNT(*) / (SELECT COUNT(*) FROM last_date)), 2) AS fraction
-FROM last_date
-WHERE prev > 0;
+SELECT ROUND((COUNT(*) / (SELECT COUNT(*) FROM total)), 2) AS fraction
+FROM total
+WHERE s > 0;
 
 
