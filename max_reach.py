@@ -1,3 +1,4 @@
+from typing import List
 def jump(self, nums: List[int]) -> int:
         jumps = 0
         n = len(nums)
