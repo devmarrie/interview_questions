@@ -15,3 +15,11 @@
 
 # Input: citations = [1,3,1]
 # Output: 1
+
+def hIndex(self, citations: List[int]) -> int:
+    new_list = sorted(citations, reverse=True)
+    count = 0
+    for i in range(len(new_list)):
+        if new_list[i] > i:
+            count += 1
+    return count
