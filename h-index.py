@@ -15,6 +15,7 @@
 
 # Input: citations = [1,3,1]
 # Output: 1
+from typing import List
 
 def hIndex(self, citations: List[int]) -> int:
     new_list = sorted(citations, reverse=True)
