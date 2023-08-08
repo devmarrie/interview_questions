@@ -63,4 +63,11 @@
 -- | 100        | 2008       | 10       | 5000  |
 -- | 200        | 2011       | 15       | 9000  |
 -- +------------+------------+----------+-------+
-
+SELECT s.product_id,
+       MIN(s.year) AS first_year,
+       s.quantity,
+       s.price
+FROM Sales AS s
+LEFT JOIN Product AS p
+ON s.product_id = p.product_id
+GROUP BY p.product_name
