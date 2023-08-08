@@ -47,3 +47,9 @@ class RandomizedSet:
 
     def getRandom(self) -> int:
         return random.choice(self.elem)
+
+if __name__ == '__main__':
+    randList = RandomizedSet()
+    randList.insert(1)
+    randList.remove(2)
+    randList.getRandom()
