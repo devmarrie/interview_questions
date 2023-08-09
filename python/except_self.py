@@ -31,4 +31,7 @@ class Solution:
             right_prod *= nums[i]
 
         return answer
-        
+
+if __name__ == '__main__':
+    sln = Solution()
+    sln.productExceptSelf([1,2,3,4,5]) 
