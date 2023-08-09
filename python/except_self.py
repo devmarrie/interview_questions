@@ -15,3 +15,19 @@
 
 # Input: nums = [-1,1,0,-3,3]
 # Output: [0,0,9,0,0]
+class Solution:
+    def productExceptSelf(self, nums: List[int]) -> List[int]:
+        n = len(nums)
+        answer = [1] * n
+        left_prod = 1
+        for i in range(n):
+            answer[i] *= left_prod
+            left_prod *= nums[i]
+        
+        right_prod = 1
+        for i in range(n-1, -1, -1):
+            answer[i] *= right_prod
+            right_prod *= nums[i]
+
+        return answer
+        
