@@ -31,6 +31,8 @@
 # You cannot travel back to station 2, as it requires 4 unit of gas but you only have 3.
 # Therefore, you can't travel around the circuit once no matter where you start.
 
+from typing import List
+
 class Solution:
     def canCompleteCircuit(self, gas: List[int], cost: List[int]) -> int:
         n = len(gas)
