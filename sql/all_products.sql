@@ -61,3 +61,7 @@
 -- Explanation: 
 -- The customers who bought all the products (5 and 6) are customers with IDs 1 and 3.
 
+SELECT customer_id
+FROM Customer
+GROUP BY customer_id
+HAVING COUNT(*) = (SELECT COUNT(*) FROM Product);
