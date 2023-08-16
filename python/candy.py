@@ -22,7 +22,7 @@
 # Explanation: You can allocate to the first, second and third child with 1, 2, 1 candies respectively.
 # The third child gets 1 candy because it satisfies the above two conditions.
 
- 
+from typing import List
 class Solution:
     def candy(self, ratings: List[int]) -> int:
         n = len(ratings)
