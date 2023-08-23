@@ -23,3 +23,10 @@
 # Input: s = "luffy is still joyboy"
 # Output: 6
 # Explanation: The last word is "joyboy" with length 6.
+
+def lengthOfLastWord(self, s: str) -> int:
+        n = s.split()
+        if n:
+            last = n[-1]
+            print(last)
+        return len(last)
