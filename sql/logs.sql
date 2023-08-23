@@ -50,3 +50,17 @@
 -- JOIN Logs b ON a.id + 1 = b.id AND a.num = b.num
 -- JOIN Logs c ON a.id + 2 = c.id AND a.num = c.num;
 
+
+WITH second AS (
+    SELECT id, num,
+         LEAD(num) OVER() AS sec
+    FROM Logs
+),
+third AS (
+    SELECT id, num, sec,
+        LEAD(sec) OVER() AS thrd
+    FROM second
+)
+SELECT DISTINCT num AS ConsecutiveNums
+FROM third
+WHERE num = sec AND sec = thrd;
