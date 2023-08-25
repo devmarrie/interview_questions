@@ -1,3 +1,4 @@
+from typing import List
 def longestCommonPrefix(self, strs: List[str]) -> str:
         n = len(strs)
         lcp = ""
