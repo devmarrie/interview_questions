@@ -53,3 +53,18 @@
 -- | 5    | 4  | Bob       | 175    | ___          |
 -- | 6    | 1  | Winston   | 500    | ___          |
 -- +------+----+-----------+--------+--------------+
+
+WITH total AS (
+    SELECT turn,
+           person_id,
+           person_name,
+           weight,
+           SUM(weight)OVER(ORDER BY turn ASC) AS next
+    FROM Queue
+    ORDER BY turn ASC
+)
+SELECT person_name 
+FROM total 
+WHERE next <= 1000
+ORDER BY next DESC
+LIMIT 1;
