@@ -47,3 +47,16 @@
 -- Kalel's manager is employee 11, who is still in the company (Joziah).
 -- Joziah's manager is employee 6, who left the company because there is no row for employee 6 as it was deleted.
 
+WITH less AS (
+    SELECT employee_id, manager_id
+    FROM Employees
+    WHERE salary < 30000
+)
+SELECT employee_id
+FROM less
+WHERE manager_id NOT IN (
+    SELECT employee_id
+    FROM Employees
+)
+ORDER BY employee_id
+
