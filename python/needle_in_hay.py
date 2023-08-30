@@ -14,3 +14,11 @@
 # Input: haystack = "leetcode", needle = "leeto"
 # Output: -1
 # Explanation: "leeto" did not occur in "leetcode", so we return -1.
+
+def strStr(haystack: str, needle: str) -> int:
+        if needle in haystack:
+            for x in range(len(haystack)):
+                if haystack[x] == needle[0] and haystack[x:x+len(needle)] == needle:
+                    return x
+        else:
+            return -1
