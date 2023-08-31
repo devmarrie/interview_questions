@@ -1,3 +1,4 @@
+from typing import List
 def fullJustify(self, words: List[str], maxWidth: int) -> List[str]:
         tt_width = 0
         line = []
