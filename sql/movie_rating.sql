@@ -97,30 +97,29 @@
 WITH usr AS (
   SELECT u.name,
        COUNT(m.user_id) AS most,
-       RANK()OVER(ORDER BY COUNT(m.user_id) DESC, m.user_id ASC) AS usr_rank
+       RANK()OVER(ORDER BY COUNT(m.user_id) DESC, u.name) AS usr_rank
   FROM MovieRating m
-  LEFT JOIN Users u
+  JOIN Users u
   ON m.user_id = u.user_id
   GROUP BY m.user_id, u.name
 ), mov AS (
 SELECT m.title,
        v.movie_id,
        AVG(v.rating) AS avg,
-       RANK()OVER(ORDER BY AVG(rating) DESC, movie_id ASC) AS mv_rnk
+       RANK()OVER(ORDER BY AVG(rating) DESC, m.title) AS mv_rnk
 FROM MovieRating AS v
-LEFT JOIN Movies AS m
+JOIN Movies AS m
 ON v.movie_id = m.movie_id
-WHERE MONTH(created_at) = 2
+WHERE DATE_FORMAT(created_at, '%Y-%m') = '2020-02'
 GROUP BY v.movie_id, m.title
 )
-SELECT name results
+(SELECT name results
 FROM usr
-WHERE usr_rank = 1
-UNION
-SELECT title results
+WHERE usr_rank = 1)
+UNION ALL
+(SELECT title results
 FROM mov
-WHERE mv_rnk = 1
-
+WHERE mv_rnk = 1)
 
 
 
