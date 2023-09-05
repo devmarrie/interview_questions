@@ -93,28 +93,34 @@
 -- Daniel and Monica have rated 3 movies ("Avengers", "Frozen 2" and "Joker") but Daniel is smaller lexicographically.
 -- Frozen 2 and Joker have a rating average of 3.5 in February but Frozen 2 is smaller lexicographically.
 
+# Write your MySQL query statement below
 WITH usr AS (
-  SELECT user_id,
-       COUNT(*) AS most,
-       RANK()OVER(ORDER BY COUNT(*) DESC, user_id ASC) AS usr_rank
-  FROM MovieRating
-  GROUP BY user_id
+  SELECT u.name,
+       COUNT(m.user_id) AS most,
+       RANK()OVER(ORDER BY COUNT(m.user_id) DESC, m.user_id ASC) AS usr_rank
+  FROM MovieRating m
+  LEFT JOIN Users u
+  ON m.user_id = u.user_id
+  GROUP BY m.user_id, u.name
 ), mov AS (
-SELECT movie_id,
-       AVG(rating) AS avg
-FROM MovieRating
+SELECT m.title,
+       v.movie_id,
+       AVG(v.rating) AS avg,
+       RANK()OVER(ORDER BY AVG(rating) DESC, movie_id ASC) AS mv_rnk
+FROM MovieRating AS v
+LEFT JOIN Movies AS m
+ON v.movie_id = m.movie_id
 WHERE MONTH(created_at) = 2
-GROUP BY movie_id
-ORDER BY AVG(rating) DESC, movie_id ASC
-LIMIT 1
+GROUP BY v.movie_id, m.title
 )
-SELECT u.name results
-FROM Users AS u
-INNER JOIN usr s
-ON u.user_id = s.user_id  AND s.usr_rank = 1
+SELECT name results
+FROM usr
+WHERE usr_rank = 1
 UNION
-SELECT m.title results
-FROM Movies AS m
-INNER JOIN mov AS v
-ON m.movie_id = v.movie_id
+SELECT title results
+FROM mov
+WHERE mv_rnk = 1
+
+
+
 
