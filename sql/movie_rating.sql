@@ -93,3 +93,28 @@
 -- Daniel and Monica have rated 3 movies ("Avengers", "Frozen 2" and "Joker") but Daniel is smaller lexicographically.
 -- Frozen 2 and Joker have a rating average of 3.5 in February but Frozen 2 is smaller lexicographically.
 
+WITH usr AS (
+  SELECT user_id,
+       COUNT(*) AS most,
+       RANK()OVER(ORDER BY COUNT(*) DESC, user_id ASC) AS usr_rank
+  FROM MovieRating
+  GROUP BY user_id
+), mov AS (
+SELECT movie_id,
+       AVG(rating) AS avg
+FROM MovieRating
+WHERE MONTH(created_at) = 2
+GROUP BY movie_id
+ORDER BY AVG(rating) DESC, movie_id ASC
+LIMIT 1
+)
+SELECT u.name results
+FROM Users AS u
+INNER JOIN usr s
+ON u.user_id = s.user_id  AND s.usr_rank = 1
+UNION
+SELECT m.title results
+FROM Movies AS m
+INNER JOIN mov AS v
+ON m.movie_id = v.movie_id
+
