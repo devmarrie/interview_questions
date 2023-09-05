@@ -22,3 +22,14 @@
 # Output: true
 # Explanation: s is an empty string "" after removing non-alphanumeric characters.
 # Since an empty string reads the same forward and backward, it is a palindrome
+
+def isPalindrome(self, s: str) -> bool:
+        new_str = ""
+        alp_str = ''.join(char for char in s if char.isalnum())
+        n = len(alp_str)
+        for i in range(n-1, -1, -1):
+            new_str += alp_str[i]
+        if new_str.lower() == alp_str.lower():
+            return True
+        else:
+            return False
