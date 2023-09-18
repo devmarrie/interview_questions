@@ -41,4 +41,20 @@
 -- Explanation: 
 -- The person with id 3 is a friend of people 1, 2, and 4, so he has three friends in total, which is the most number than any others.
 
- 
+WITH all_users AS (
+  SELECT requester_id AS user_id FROM RequestAccepted
+  UNION ALL
+  SELECT accepter_id AS user_id FROM RequestAccepted
+),
+usr_count AS (
+  SELECT user_id,
+      COUNT(*) AS tt
+  FROM all_users
+  GROUP BY user_id
+  ORDER BY COUNT(*) DESC
+)
+
+SELECT user_id AS id,
+       tt AS num
+FROM usr_count
+LIMIT 1
