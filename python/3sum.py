@@ -28,3 +28,24 @@
 # Explanation: The only possible triplet sums up to 0.
 
 
+def threeSum(self, nums: List[int]) -> List[List[int]]:
+        nums.sort()
+        n = len(nums)
+        res = []
+
+        for k in range(n - 2):
+            l = k + 1
+            r = n - 1
+            while l < r:
+                tt = nums[k] + nums[l] + nums[r]
+                if tt == 0:
+                    lst = [nums[k], nums[l], nums[r]]
+                    if lst not in res:
+                        res.append(lst)
+                    l += 1
+                    r -= 1
+                elif tt < 0:
+                    l += 1
+                else:
+                    r -= 1
+        return res
