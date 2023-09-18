@@ -27,6 +27,7 @@
 # Output: [[0,0,0]]
 # Explanation: The only possible triplet sums up to 0.
 
+from typing import List
 
 def threeSum(self, nums: List[int]) -> List[List[int]]:
         nums.sort()
