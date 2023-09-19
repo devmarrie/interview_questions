@@ -54,3 +54,45 @@
 -- The second record does not meet any of the two criteria. Its tiv_2015 is not like any other policyholders and its location is the same as the third record, which makes the third record fail, too.
 -- So, the result is the sum of tiv_2016 of the first and last record, which is 45.
 
+# Write your MySQL query statement below
+WITH prev AS (
+  SELECT pid,
+       tiv_2016
+  FROM Insurance
+  WHERE tiv_2015 IN (
+    SELECT tiv_2015
+    FROM Insurance
+    GROUP BY tiv_2015
+    HAVING COUNT(*) > 1
+  ) 
+),
+lati AS (
+  SELECT pid,
+       tiv_2016
+  FROM Insurance
+  WHERE lat IN (
+    SELECT lat
+    FROM Insurance
+    GROUP BY lat
+    HAVING COUNT(*) = 1
+  )
+),
+longi AS (
+  SELECT pid,
+       tiv_2016
+  FROM Insurance
+  WHERE lon IN (
+    SELECT lon
+    FROM Insurance
+    GROUP BY lon
+    HAVING COUNT(*) = 1
+  )
+)
+SELECT ROUND(SUM(a.tiv_2016), 2) AS tiv_2016
+FROM prev AS a
+JOIN lati AS i
+ON a.pid = i.pid
+JOIN longi AS g
+ON a.pid = g.pid
+
+
