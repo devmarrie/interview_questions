@@ -81,3 +81,22 @@
 -- - Sam earns the second-highest salary
 -- - There is no third-highest salary as there are only two employees
 
+
+WITH tg AS (
+  SELECT e.id,
+       e.name,
+       e.salary,
+       e.departmentId,
+       d.name AS dptName,
+       DENSE_RANK()OVER(PARTITION BY d.name ORDER BY e.salary DESC) AS rnk
+  FROM Employee e
+  INNER JOIN Department d
+  ON e.departmentId = d.id
+  ORDER BY d.name, e.salary DESC
+)
+
+SELECT dptName AS Department,
+       name AS Employee,
+       salary AS Salary
+FROM tg
+WHERE rnk <= 3
