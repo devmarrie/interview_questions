@@ -24,25 +24,12 @@
 # Notice that the answer must be a substring, "pwke" is a subsequence and not a substring.
 
 def lengthOfLongestSubstring(self, s: str) -> int:
-        res = 0
-        i = 0
-        if s == "":
-            return 0
-        if not s.strip():
-            return 1
-        if len(s) == 1:
-            return 1
-        sub = f"{s[0]}"        
-        for j in range(1, len(s)):
-            if s[j] != s[i] and s[j] not in sub:
-                sub += s[j]
-                if len(s) == 2 and s == sub:
-                    return 2
-                i += 1
-            else:
-                res = max(len(sub), res)
-                sub = f"{s[j]}"
-                i = j
-                j = i + 1
-        print(res)
+        charUniq = set()
+        l, res = 0, 0
+        for r in range(len(s)):
+            while s[r] in charUniq:
+                charUniq.remove(s[l])
+                l += 1
+            charUniq.add(s[r])
+            res = max(r - l + 1, res)
         return res
