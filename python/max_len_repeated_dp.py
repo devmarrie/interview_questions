@@ -13,7 +13,7 @@
 # Input: nums1 = [0,0,0,0,0], nums2 = [0,0,0,0,0]
 # Output: 5
 # Explanation: The repeated subarray with maximum length is [0,0,0,0,0].
-
+from typing import List
 def findLength(self, nums1: List[int], nums2: List[int]) -> int:
         dp = [[0] * (len(nums2) + 1) for _ in range(len(nums1) + 1)]
         mlen = 0
