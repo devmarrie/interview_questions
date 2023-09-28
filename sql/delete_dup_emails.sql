@@ -44,3 +44,7 @@
 -- Explanation: john@example.com is repeated two times. We keep the row with the smallest Id = 1.
 
 
+DELETE p1
+FROM Person p1
+INNER JOIN Person p2
+ON p1.email = p2.email AND p1.id > p2.id
