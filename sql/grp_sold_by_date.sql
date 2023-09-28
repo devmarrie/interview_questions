@@ -48,8 +48,10 @@
 -- For 2020-05-30, Sold items were (Headphone, Basketball, T-shirt), we sort them lexicographically and separate them by a comma.
 -- For 2020-06-01, Sold items were (Pencil, Bible), we sort them lexicographically and separate them by a comma.
 -- For 2020-06-02, the Sold item is (Mask), we just return it.
+
 SELECT sell_date,
-       product,
-       COUNT(DISTINCT product) AS num
+       COUNT(DISTINCT product) AS num_sold,
+       GROUP_CONCAT(DISTINCT product ORDER BY product SEPARATOR ',') AS products
 FROM Activities
 GROUP BY sell_date
+ORDER BY sell_date
