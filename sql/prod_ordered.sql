@@ -79,3 +79,19 @@
 -- Products with product_id = 4 was not ordered in February 2020.
 -- Products with product_id = 5 is ordered in February a total of (50 + 50) = 100.
 
+WITH cte AS (
+  SELECT p.product_name,
+       o.order_date,
+       SUM(o.unit) AS unit
+  FROM Products AS p
+  JOIN Orders AS o
+  ON p.product_id = o.product_id
+  WHERE MONTH(o.order_date) = 02 AND YEAR(o.order_date) = 2020
+  GROUP BY 1
+)
+
+SELECT product_name,
+       unit
+FROM cte
+WHERE unit >= 100
+
