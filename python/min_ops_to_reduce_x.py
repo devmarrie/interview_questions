@@ -20,3 +20,21 @@
 # Input: nums = [3,2,20,1,1,3], x = 10
 # Output: 5
 # Explanation: The optimal solution is to remove the last three elements and the first two elements (5 operations in total) to reduce x to zero.
+from typing import List
+def minOperations(nums: List[int], x: int) -> int:
+        target = sum(nums) - x
+        curr_sum = 0
+        max_window = -1
+        l = 0
+
+        for r in range(len(nums)):
+            curr_sum += nums[r]
+
+            while l < r and curr_sum > target:
+                curr_sum -= nums[l]
+                l += 1
+            
+            if curr_sum == target:
+                max_window = max(max_window, r - l + 1)
+        
+        return -1 if max_window == -1 else len(nums) - max_window
