@@ -12,6 +12,7 @@
 # Input: matrix = [[1,2,3,4],[5,6,7,8],[9,10,11,12]]
 # Output: [1,2,3,4,8,12,11,10,9,5,6,7]
 
+from typing import List
 
 def spiralOrder(self, matrix: List[List[int]]) -> List[int]:
         l, r = 0, len(matrix[0])
