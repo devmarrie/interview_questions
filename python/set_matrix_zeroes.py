@@ -18,29 +18,36 @@ def setZeroes(self, matrix: List[List[int]]) -> None:
         """
         Do not return anything, modify matrix in-place instead.
         """
-        cols =  len(matrix[0])
-        rows =  len(matrix)
+        cols = len(matrix[0])
+        rows = len(matrix)
         firstRow = False
 
-        for i in range(rows):
+        # Check if the first row should be zeroed
+        for j in range(cols):
+            if matrix[0][j] == 0:
+                firstRow = True
+                break
+
+        # Mark rows and columns that should be zeroed using the first row and first column
+        for i in range(1, rows):
             for j in range(cols):
                 if matrix[i][j] == 0:
+                    matrix[i][0] = 0
                     matrix[0][j] = 0
 
-                    if i > 0:
-                        matrix[i][0] = 0
-                    else:
-                        firstRow = True
-        
-        for r in range(1, rows):
-            for c in range(1, cols):
-                if matrix[0][c] == 0 or matrix[r][0] == 0:
-                    matrix[r][c] = 0
+        # Zero out marked rows except for the first row
+        for i in range(1, rows):
+            if matrix[i][0] == 0:
+                for j in range(cols):
+                    matrix[i][j] = 0
 
+        # Zero out marked columns except for the first column
+        for j in range(cols):
+            if matrix[0][j] == 0:
+                for i in range(rows):
+                    matrix[i][j] = 0
+
+        # Zero out the first row if needed
         if firstRow:
-            for c in range(cols):
-                matrix[0][c] = 0
-        
-        if matrix[0][0] == 0:
-            for r in range(rows):
-                matrix[r][0] = 0
+            for j in range(cols):
+                matrix[0][j] = 0
