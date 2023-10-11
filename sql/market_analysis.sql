@@ -91,3 +91,19 @@
 -- | 4         | 2018-05-21 | 0              |
 -- +-----------+------------+----------------+
 
+WITH ord AS (
+SELECT order_id,
+       order_date,
+       buyer_id
+FROM Orders
+WHERE YEAR(order_date) = 2019
+)
+SELECT u.user_id AS buyer_id, 
+    u.join_date,
+    COUNT(o.buyer_id) AS orders_in_2019
+FROM Users AS u
+LEFT JOIN ord o  
+ON u.user_id = o.buyer_id
+GROUP BY 1
+
+
