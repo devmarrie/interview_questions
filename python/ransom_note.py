@@ -19,4 +19,13 @@
 # Input: ransomNote = "aa", magazine = "aab"
 # Output: true
 
- 
+def canConstruct(self, ransomNote: str, magazine: str) -> bool:
+    vals = {}
+    for c in magazine:
+        vals[c] = vals.get(c, 0) + 1
+        
+    for i in ransomNote:
+        if vals.get(i, 0) <= 0: # avoid a keyerror if the key is not present
+            return False
+        vals[i] -= 1 # ensures each character is used only once
+    return True
