@@ -19,3 +19,15 @@
 # Input: strs = ["a"]
 # Output: [["a"]]
 
+from typing import List
+def groupAnagrams(self, strs: List[str]) -> List[List[str]]:
+        anagr = {}
+    
+        for word in strs:
+            word_sorted = ''.join(sorted(word))
+            if word_sorted not in anagr:
+                anagr[word_sorted] = [word]
+            else:
+                anagr[word_sorted].append(word)
+        res = list(anagr.values())
+        return res    
