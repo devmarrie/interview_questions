@@ -25,4 +25,23 @@
 # Input: n = 2
 # Output: false
 
+def isHappy(self, n: int) -> bool:
+        val = set()
+
+        def get_val(n: int) -> int:
+            out = 0
+            while n:
+                last = n % 10
+                out += last ** 2
+                n = n // 10
+            return out  
+        while n not in val:
+            val.add(n)
+            n = get_val(n)  
+
+            if n == 1:
+                return True
+
+        return False
+
  
