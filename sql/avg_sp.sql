@@ -75,7 +75,7 @@ WITH full_table AS (
            u.units,
            p.price
     FROM Prices AS p 
-        INNER JOIN UnitsSold AS u
+        LEFT JOIN UnitsSold AS u
         ON p.product_id = u.product_id
     WHERE u.purchase_date BETWEEN p.start_date AND p.end_date
 ),
@@ -86,7 +86,9 @@ sums AS(
     FROM full_table
     GROUP BY product_id
 )
-SELECT product_id,
-       ROUND((prices/sum_unit), 2) AS average_price
-FROM sums;
+SELECT DISTINCT p.product_id,
+       ROUND(COALESCE((s.prices/s.sum_unit), 0), 2) AS average_price
+FROM Prices p
+LEFT JOIN sums s
+ON p.product_id = s.product_id;
 
