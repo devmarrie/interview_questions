@@ -16,3 +16,20 @@
 
 # Input: nums = [1,2,3,1,2,3], k = 2
 # Output: false
+from typing import List
+
+def containsNearbyDuplicate(nums: List[int], k: int) -> bool:
+        vals = {}
+        for k, v in enumerate(nums):
+            if v in vals:
+                vals[v].append(k)
+            else:
+                vals[v] = [k]
+        for z in vals.values():
+           if len(z) >= 2:
+               i = 0
+               for j in range(len(z)):
+                    if abs(z[i] - z[j]) <= k:
+                        return True
+                    i += 1
+        return False
