@@ -19,17 +19,14 @@
 from typing import List
 
 def containsNearbyDuplicate(nums: List[int], k: int) -> bool:
-        vals = {}
-        for k, v in enumerate(nums):
-            if v in vals:
-                vals[v].append(k)
-            else:
-                vals[v] = [k]
-        for z in vals.values():
-           if len(z) >= 2:
-               i = 0
-               for j in range(len(z)):
-                    if abs(z[i] - z[j]) <= k:
-                        return True
-                    i += 1
+        vals = set()
+        l = 0
+
+        for r in range(len(nums)):
+            if r - l > k:
+                vals.remove(nums[l])
+                l += 1
+            if nums[r] in vals:
+                return True
+            vals.add(nums[r])
         return False
