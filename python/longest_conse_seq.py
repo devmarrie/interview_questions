@@ -15,3 +15,22 @@
 # Input: nums = [0,3,7,2,5,8,4,6,0,1]
 # Output: 9
 
+from typing import List
+def longestConsecutive(nums: List[int]) -> int:
+        if not nums:
+            return 0
+
+        numSet = set(nums)
+        maxLen = 0
+
+        for i in numSet:
+            if (i - 1) not in numSet:
+                currVal = i
+                currLen = 1
+                while currVal + 1 in numSet:
+                    currVal += 1
+                    currLen += 1
+
+                maxLen = max(maxLen, currLen)
+                
+        return maxLen
