@@ -60,25 +60,18 @@
 
 -- Cat queries quality equals ((2 / 5) + (3 / 3) + (4 / 7)) / 3 = 0.66
 -- Cat queries poor_ query_percentage is (1 / 3) * 100 = 33.33
-WITH ctgroups AS(
-  SELECT query_name, COUNT(*) AS ctall
-  FROM Queries
-  GROUP BY query_name
-),
-rtng AS (
-    SELECT q.query_name, 
-           COUNT(q.rating) AS rcount,
-           (COUNT(q.rating) / c.ctall) * 100 AS feed
-    FROM Queries AS q
-    LEFT JOIN ctgroups AS c
-    ON q.query_name = c.query_name
-    WHERE rating < 3
-    GROUP BY query_name
+WITH cte AS (
+    SELECT query_name,
+        position,
+        rating,
+        (rating / position ) AS p_quality,
+        CASE WHEN rating < 3 THEN 1
+             ELSE 0
+        END AS less
+    FROM Queries
 )
-SELECT q.query_name,
-       ROUND(AVG(q.rating / q.position), 2) AS quality,
-       ROUND(COALESCE(r.feed,0), 2) AS poor_query_percentage
-FROM Queries AS q
-  LEFT JOIN rtng AS r
-  ON q.query_name = r.query_name
-GROUP BY query_name;
+SELECT query_name,
+       ROUND(AVG(p_quality), 2) AS quality,
+       ROUND((AVG(less) * 100) , 2) AS poor_query_percentage
+FROM cte
+GROUP BY query_name
