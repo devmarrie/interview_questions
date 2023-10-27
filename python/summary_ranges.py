@@ -29,3 +29,27 @@
 # [2,4] --> "2->4"
 # [6,6] --> "6"
 # [8,9] --> "8->9"
+
+from typing import List
+
+def summaryRanges(nums: List[int]) -> List[str]:
+        if not nums:
+            return []
+        rng = []
+        start, end = nums[0], nums[0]
+
+        for i in range(1,len(nums)):
+            if nums[i] > end + 1:
+                if start != end:
+                    rng.append(str(start) + '->' + str(end))
+                else:
+                    rng.append(str(end))
+                start, end = nums[i], nums[i] 
+            else:
+                end = nums[i]
+        if start != end:
+            rng.append(str(start) + '->' + str(end))
+        else:
+            rng.append(str(end))
+        return rng
+    
