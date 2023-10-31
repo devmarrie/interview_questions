@@ -13,3 +13,17 @@
 # Input: intervals = [[1,4],[4,5]]
 # Output: [[1,5]]
 # Explanation: Intervals [1,4] and [4,5] are considered overlapping.
+
+def merge(self, intervals: List[List[int]]) -> List[List[int]]:
+        intervals.sort(key = lambda x : x[0])
+        res = [intervals[0]]
+        
+        for i in range(len(intervals)):
+            prev = res[-1]
+            curr = intervals[i]
+
+            if curr[0] <= prev[-1]:
+                prev[-1] = max(curr[-1], prev[-1])
+            else:
+                res.append(curr)
+        return res
