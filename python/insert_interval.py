@@ -16,5 +16,18 @@
 # Input: intervals = [[1,2],[3,5],[6,7],[8,10],[12,16]], newInterval = [4,8]
 # Output: [[1,2],[3,10],[12,16]]
 # Explanation: Because the new interval [4,8] overlaps with [3,5],[6,7],[8,10].
+from typing import List
+def insert(intervals: List[List[int]], newInterval: List[int]) -> List[List[int]]:
+        intervals.append(newInterval)
+        intervals.sort(key=lambda x : x[0])
 
- 
+        res = [intervals[0]]
+
+        for i in range(len(intervals)):
+            last = res[-1]
+            curr = intervals[i]
+            if curr[0] <= last[-1]:
+                last[-1] = max(curr[-1], last[-1])
+            else:
+                res.append(curr)
+        return res
