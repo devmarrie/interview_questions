@@ -27,3 +27,18 @@
 # Explanation: The balloons can be burst by 2 arrows:
 # - Shoot an arrow at x = 2, bursting the balloons [1,2] and [2,3].
 # - Shoot an arrow at x = 4, bursting the balloons [3,4] and [4,5].
+
+from typing import List
+
+def findMinArrowShots(points: List[List[int]]) -> int:
+        points.sort()
+        prev = points[0]
+        total = 1 #its hitting sth already
+
+        for s, e in points[1:]:
+            if s > prev[1]:
+                total += 1
+                prev = [s,e]
+            else:
+                prev[1] = min(prev[1], e)
+        return total
