@@ -36,3 +36,20 @@
 # = (0 + 17) + 5
 # = 17 + 5
 # = 22
+from typing import List
+
+def evalRPN(self, tokens: List[str]) -> int:
+        stack = []
+        for v in tokens:
+            if v == "+":
+                stack.append(stack.pop() + stack.pop())
+            elif v == "-":
+                a,b = stack.pop(), stack.pop()
+                stack.append(b - a)
+            elif v == "*":
+                stack.append(stack.pop() * stack.pop())
+            elif v == "/":
+                a,b = stack.pop(), stack.pop()
+                stack.append(int(b / a))
+            else:
+                stack.ap
