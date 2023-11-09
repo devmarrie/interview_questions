@@ -59,3 +59,25 @@
 -- 3rd moving average from 2019-01-03 to 2019-01-09 has an average_amount of (120 + 130 + 110 + 140 + 150 + 80 + 110)/7 = 120
 -- 4th moving average from 2019-01-04 to 2019-01-10 has an average_amount of (130 + 110 + 140 + 150 + 80 + 110 + 130 + 150)/7 = 142.86
 
+WITH daily AS (
+    SELECT visited_on,
+       SUM(amount) AS tt_amount
+    FROM Customer
+    GROUP BY visited_on
+),
+calc AS (
+SELECT visited_on,
+       SUM(tt_amount)OVER(ORDER BY visited_on ROWS BETWEEN 6 PRECEDING AND CURRENT ROW) AS amount,
+      ROUND(AVG(tt_amount)OVER(ORDER BY visited_on ROWS BETWEEN 6 PRECEDING AND CURRENT ROW), 2) AS average_amount
+FROM daily
+)
+SELECT visited_on,
+       amount,
+       average_amount
+FROM calc
+WHERE visited_on >= (
+    SELECT DATE_ADD(visited_on, INTERVAL 6 DAY)
+    FROM Customer
+    ORDER BY visited_on
+    LIMIT 1
+)
