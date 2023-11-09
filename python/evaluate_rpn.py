@@ -36,6 +36,7 @@
 # = (0 + 17) + 5
 # = 17 + 5
 # = 22
+
 from typing import List
 
 def evalRPN(self, tokens: List[str]) -> int:
