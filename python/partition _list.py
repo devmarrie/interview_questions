@@ -13,3 +13,32 @@
 
 # Input: head = [2,1], x = 2
 # Output: [1,2]
+
+from typing import Optional
+class ListNode:
+    def __init__(self, val=0, next=None):
+        self.val = val
+        self.next = next
+class Solution:
+    def partition(self, head: Optional[ListNode], x: int) -> Optional[ListNode]:
+
+        dummyLess = ListNode()
+        currLess = dummyLess
+        dummyGreat = ListNode()
+        currGreat = dummyGreat
+        curr = head
+
+        while curr:
+            if curr.val >= x:
+                currGreat.next = curr
+                currGreat = currGreat.next
+            else:
+                currLess.next = curr
+                currLess = currLess.next
+            curr = curr.next
+        currLess.next = None
+        currGreat.next = None
+
+        # Merge the two
+        currLess.next = dummyGreat.next
+        return dummyLess.next
