@@ -39,3 +39,23 @@
 -- user_id	avg
 -- 0	1883.5
 -- 1	35
+
+with cte as (
+select user_id, max(timestamp) as loaded, action,
+    extract(day from timestamp) AS day
+from facebook_web_log 
+where action = 'page_load' 
+group by extract(day from timestamp), user_id, action
+),
+ext_cte as (
+select user_id, min(timestamp) as exited, action,
+    extract(day from timestamp) AS day
+from facebook_web_log 
+where action = 'page_exit'
+group by extract(day from timestamp), user_id, action
+)
+select l.user_id , AVG(e.exited - l.loaded) as avg
+from cte l
+inner join ext_cte e
+on l.user_id = e.user_id and l.day = e.day
+group by l.user_id;
