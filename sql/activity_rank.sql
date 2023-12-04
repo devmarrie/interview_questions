@@ -21,3 +21,14 @@
 -- 5b8754928306a18b68	18	3
 -- 55e60cfcc9dc49c17e	16	4
 -- 91f59516cb9dee1e88	16	5
+
+with cte AS (
+select from_user, COUNT(*) AS total_emails
+from google_gmail_emails
+group by from_user
+)
+select from_user, total_emails,
+    row_number() over(order by total_emails DESC,from_user) as row_number
+from cte 
+order by total_emails DESC, from_user
+;
