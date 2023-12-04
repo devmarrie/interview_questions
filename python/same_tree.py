@@ -30,5 +30,4 @@ class Solution:
         leftNode = self.isSameTree(p.left, q.left)
         rightNode = self.isSameTree(p.right, q.right)
 
-        if leftNode == True and rightNode == True:
-            return True
+        return leftNode and rightNode
