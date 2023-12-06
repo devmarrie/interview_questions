@@ -1,0 +1,9 @@
+-- Write a query that'll identify returning active users. 
+-- A returning active user is a user that has made a second purchase within 7 days of any other of their purchases. 
+-- Output a list of user_ids of these returning active users.
+-- id	user_id	item	created_at	revenue
+-- 1	109	milk	2020-03-03	123
+-- 2	139	biscuit	2020-03-18	421
+-- 3	120	milk	2020-03-18	176
+-- 4	108	banana	2020-03-18	862
+-- 5	130	milk	2020-03-28	333
