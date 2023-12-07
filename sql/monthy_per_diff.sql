@@ -11,3 +11,14 @@
 -- 4	2019-01-13	164911	30
 -- 5	2019-01-17	198872	39
 
+with cte as (
+select
+    date_format(created_at, '%Y-%m') as ym,
+    sum(value) as tt_rev
+from sf_transactions
+group by 1
+order by 1
+)
+select ym,
+    round(((tt_rev - (lag(tt_rev)over())) / (lag(tt_rev)over())) * 100, 2) as revenue_diff_pct
+from cte
