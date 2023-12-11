@@ -19,3 +19,26 @@
 -- Output
 -- salary_difference
 -- 2400
+
+with mkt as (
+select e.salary, dpt.department,
+    rank()over(order by e.salary desc) as rnk
+from db_employee e
+inner join db_dept dpt
+on e.department_id = dpt.id
+where dpt.department = 'marketing'
+limit 1
+),
+eng as (
+select e.salary, dpt.department,
+    rank()over(order by e.salary desc) as rnk
+from db_employee e
+inner join db_dept dpt
+on e.department_id = dpt.id
+where dpt.department = 'engineering'
+limit 1
+)
+select m.salary - e.salary as salary_difference
+from eng e
+inner join mkt m
+on e.rnk = m.rnk
