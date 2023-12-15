@@ -5,3 +5,17 @@
 -- Output a list of projects that are overbudget with their project name, project budget, and prorated total employee expense (rounded to the next dollar amount).
 
 -- HINT: to make it simpler, consider that all years have 365 days. You don't need to think about the leap years.
+
+with cte as (
+select ep.project_id, p.title, p.budget,
+    ceil(sum((datediff(p.end_date,p.start_date) * e.salary) / 365)) as prorated_employee_expense
+from linkedin_projects p
+inner join linkedin_emp_projects ep
+on p.id = ep.project_id
+inner join linkedin_employees e
+on ep.emp_id = e.id
+group by ep.project_id
+)
+select title, budget, prorated_employee_expense
+from cte
+where prorated_employee_expense > budget;
