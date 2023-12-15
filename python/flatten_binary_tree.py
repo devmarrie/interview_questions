@@ -20,4 +20,33 @@
 # Input: root = [0]
 # Output: [0]
 
+from typing import Optional
+class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
 
+class Solution:
+    def flatten(self, root: Optional[TreeNode]) -> None:
+        """
+        Do not return anything, modify root in-place instead.
+        """
+        
+        def dfs(root):
+            if not root:
+                return None
+            
+            leftSide = dfs(root.left)
+            rightSide = dfs(root.right)
+
+            # we want to put the left side to the right
+            if leftSide:
+                leftSide.right = root.right
+                root.right = root.left
+                root.left = None
+
+            last = rightSide or leftSide or root
+            return last
+
+        dfs(root)
