@@ -24,3 +24,20 @@
 # Input: root = [], targetSum = 0
 # Output: false
 # Explanation: Since the tree is empty, there are no root-to-leaf paths.
+
+from typing import Optional
+class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+class Solution:
+    def hasPathSum(self, root: Optional[TreeNode], targetSum: int) -> bool:
+        def dfs(node, currTotal):
+            if not node:
+                return False
+            currTotal += node.val
+            if not node.left and not node.right:
+                return currTotal == targetSum
+            return (dfs(node.left, currTotal)) or (dfs(node.right, currTotal))
+        return dfs(root, 0)
