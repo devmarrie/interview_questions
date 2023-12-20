@@ -1,0 +1,10 @@
+-- Find the total number of downloads for paying and non-paying users by date. 
+-- Include only records where non-paying customers have more downloads than paying customers. 
+-- The output should be sorted by earliest date first and contain 3 columns date, non-paying downloads, paying downloads.
+-- Tables: ms_user_dimension, ms_acc_dimension, ms_download_facts
+-- Expected output
+-- date	non_paying	paying
+-- 2020-08-16	15	14
+-- 2020-08-17	45	9
+-- 2020-08-18	10	7
+-- 2020-08-21	32	17
