@@ -40,3 +40,40 @@
 #         inorder(node.right)
 #     inorder(root)
 #     return res
+
+from typing import Optional
+class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+class BSTIterator:
+
+    def __init__(self, root: Optional[TreeNode]):
+        self.stack =[] 
+        while root:
+            self.stack.append(root)
+            root = root.left
+
+    def next(self) -> int:
+        """
+        Pop from the stack and return its val
+        Remeber to iterate the left side of the popped value
+        """
+        nxt = self.stack.pop()
+        curr = nxt.right
+        while curr:
+            self.stack.append(curr)
+            curr = curr.left
+        return nxt.val
+        
+
+    def hasNext(self) -> bool:
+        """If the stack has sth"""
+        return self.stack != []
+
+
+# Your BSTIterator object will be instantiated and called as such:
+# obj = BSTIterator(root)
+# param_1 = obj.next()
+# param_2 = obj.hasNext()
