@@ -26,3 +26,22 @@
 -- date	count(a.user_id_receiver)/count(b.user_id_sender)
 -- 2020-01-04	0.75
 -- 2020-01-06	0.667    
+
+with rec as (
+select user_id_receiver, date, action, user_id_sender
+from fb_friend_requests
+where action = 'accepted'
+),
+sen as(
+select date, action, user_id_sender
+from fb_friend_requests
+where action = 'sent'
+)
+select b.date, 
+    count(a.user_id_receiver)/count(b.user_id_sender)
+from sen b
+left join rec a
+on a.user_id_sender = b.user_id_sender
+group by b.date
+order by b.date
+
