@@ -20,3 +20,25 @@
 
 # Input: root = [1,2], p = 1, q = 2
 # Output: 1
+
+class TreeNode:
+    def __init__(self, x):
+        self.val = x
+        self.left = None
+        self.right = None
+
+class Solution:
+    def lowestCommonAncestor(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':
+        def dfs(node):
+            if not node:
+                return None
+            if p.val == node.val or q.val == node.val:
+                return node
+            # recursively find lca in both sides
+            l = dfs(node.left)
+            r = dfs(node.right)
+            # both are tru return node
+            if l and r:
+                return node
+            return l if l else r
+        return dfs(root)
