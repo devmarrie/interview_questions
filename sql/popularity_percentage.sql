@@ -23,3 +23,18 @@
 -- 3	         33.333
 -- 4	         11.111
 -- 5	         11.111
+
+with usr_pop AS (
+SELECT user1 AS user_id, user2 AS friend_id FROM facebook_friends
+UNION
+SELECT user2 AS user_id, user1 AS friend_id FROM facebook_friends
+)
+SELECT user_id as user1, 
+    (
+    COUNT( DISTINCT friend_id) / (
+    SELECT COUNT(DISTINCT user_id) AS tt
+    FROM usr_pop
+    ) ) *100 as popularity_percent
+FROM usr_pop
+GROUP BY user_id
+ORDER BY user_id
