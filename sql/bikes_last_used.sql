@@ -11,3 +11,7 @@
 -- W01006	2012-03-31 10:44:00
 -- W01242	2012-03-31 09:24:00
 
+select bike_number, max(end_time) as last_used
+from dc_bikeshare_q1_2012
+group by bike_number
+order by end_time desc;
