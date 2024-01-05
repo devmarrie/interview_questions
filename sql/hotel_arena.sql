@@ -10,3 +10,8 @@
 -- Hotel Arena	4.6	1
 -- Hotel Arena	3.8	1
 -- Hotel Arena	4.2	1
+
+select hotel_name, reviewer_score, count(*)
+from hotel_reviews
+where hotel_name = 'Hotel Arena'
+group by reviewer_score;
