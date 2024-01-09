@@ -21,3 +21,13 @@
 -- 91c2a883-04e3-4bbb-a7bb-620531318ab1	2	17
 -- b8831610-31f2-4c58-8ada-63b3601ca476	2	17
 -- 6133fb99-2391-4d4b-a077-bae40581f925	3	16
+
+with cte as (
+select id_guest, sum(n_messages) as messages 
+from airbnb_contacts
+group by id_guest
+)
+select id_guest, 
+    dense_rank() over(order by messages desc) as ranks,
+    messages
+from cte
