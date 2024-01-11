@@ -11,3 +11,34 @@
 -- japanese	2	                6
 -- french	    0	                5
 -- russian	    0	                5
+
+with apple as (
+select  distinct e.user_id, e.device, u.language
+from playbook_events e
+inner join playbook_users u
+on e.user_id = u.user_id
+where e.device = 'macbook pro' or e.device = 'iPhone 5s' or e.device = 'ipad air'
+), 
+ttl as (
+select  distinct e.user_id,  u.language
+from playbook_events e
+inner join playbook_users u
+on e.user_id = u.user_id
+),
+au as (
+select language, count(*) as n_apple_user
+from apple
+group by language
+order by count(*) desc
+),
+ttu as (
+select language, count(*) as n_total_users
+from ttl
+group by language
+order by count(*) desc
+)
+select t.language, coalesce(u.n_apple_user, 0) as n_apple_user, t.n_total_users
+from ttu as t
+left join au u
+on t.language = u.language
+order by t.n_total_users desc
