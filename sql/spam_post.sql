@@ -19,3 +19,25 @@
 -- 2019-01-01	100
 -- 2019-01-02	50
 
+with wote as (
+select p.post_date, count(v.viewer_id) as all_views
+from facebook_posts p
+inner join facebook_post_views v
+on p.post_id = v.post_id
+group by p.post_date
+),
+waspam as (
+select p.post_date, count(v.viewer_id) as spam_views
+from facebook_posts p
+inner join facebook_post_views v
+on p.post_id = v.post_id
+where p.post_keywords like '%spam%'
+group by p.post_date
+)
+select a.post_date,
+    (b.spam_views / a.all_views) * 100 as spam_share
+from wote a
+inner join waspam b
+on a.post_date = b.post_date
+
+
