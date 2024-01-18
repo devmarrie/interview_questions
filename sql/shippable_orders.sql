@@ -15,3 +15,19 @@
 -- city:varchar
 -- address:varchar
 -- phone_number:varchar
+
+with adrs as (
+select count(*) as wale
+from orders o
+inner join customers c
+on o.cust_id = c.id
+where c.address != ' '
+),
+tt as (
+select count(*)  as wote 
+from orders o
+inner join customers c
+on o.cust_id = c.id
+)
+select (wale / wote) * 100 AS percent_shipable
+from adrs, tt;
