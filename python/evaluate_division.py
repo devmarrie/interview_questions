@@ -29,3 +29,35 @@
 
 # Input: equations = [["a","b"]], values = [0.5], queries = [["a","b"],["b","a"],["a","c"],["x","y"]]
 # Output: [0.50000,2.00000,-1.00000,-1.00000]
+import collections
+from typing import List
+class Solution:
+    def calcEquation(self, equations: List[List[str]], values: List[float], queries: List[List[str]]) -> List[float]:
+        # Below is a shortcut for initialising a dictonary of lists
+        slns = collections.defaultdict(list) # a:[b, a/b](eq, val)
+        
+        for i, eq in enumerate(equations):
+            a, b = eq
+            slns[a].append([b, values[i]])
+            slns[b].append([a, 1/values[i]])
+        
+        # for recursive purposes 
+        def bfs(s,t):
+            if s not in slns or t not in slns:
+                return -1.0
+            q, visited = collections.deque() , set()
+            q.append([s, 1])
+            visited.add(s)
+
+            while q:
+                n, w = q.popleft()
+                if n == t:
+                    return w
+                for nei, val in slns[n]:
+                    if nei not in  visited:
+                        q.append([nei, w * val])
+                        visited.add(nei)
+            return -1
+
+        return [bfs(q[0], q[1]) for q in queries]
+
