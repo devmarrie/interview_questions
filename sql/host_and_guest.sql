@@ -11,3 +11,8 @@
 -- nationality:varchar
 -- gender:varchar
 -- age:int
+
+select distinct h.host_id, g.guest_id
+from airbnb_hosts h
+inner join airbnb_guests g
+on h.gender = g.gender and h.nationality = g.nationality;
