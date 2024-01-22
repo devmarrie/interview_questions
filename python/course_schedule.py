@@ -19,3 +19,31 @@
 # Output: false
 # Explanation: There are a total of 2 courses to take. 
 # To take course 1 you should have finished course 0, and to take course 0 you should also have finished course 1. So it is impossible.
+
+from typing import List
+
+class Solution:
+    def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:
+        # create a hash map containing the courses and their preq
+        preMap = {i:[] for i in range(numCourses)}
+        for crs, preq in prerequisites:
+            preMap[crs].append(preq)
+        visited = set()
+        path = set()  # Keep track of courses in the current path
+
+        def dfs(crs):
+            if crs in path:
+                return False
+            if crs in visited:
+                return True
+
+            visited.add(crs)
+            path.add(crs)
+            for c in preMap[crs]:
+                if not dfs(c): return False
+            path.remove(crs)
+            return True
+
+        for n in range(numCourses):
+            if not dfs(n): return False
+        return True
