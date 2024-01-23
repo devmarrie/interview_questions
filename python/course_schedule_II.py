@@ -23,3 +23,35 @@
 
 # Input: numCourses = 1, prerequisites = []
 # Output: [0]
+
+from typing import List
+
+class Solution:
+    def findOrder(self, numCourses: int, prerequisites: List[List[int]]) -> List[int]:
+        preMap = {i:[] for i in range(numCourses)}
+        for crs, preq in prerequisites:
+            preMap[crs].append(preq)
+        
+        lst = []
+        visited , cycles = set(), set()
+
+        def dfs(crs):
+            if crs in cycles: # that is a loop
+                return False
+            if crs in visited: # can also be accessed via this path
+                return True
+            cycles.add(crs)   
+
+            for p in preMap[crs]:
+                if not dfs(p): return False # check the cycling and recursion
+            cycles.remove(crs)
+            visited.add(crs)
+            lst.append(crs)
+            return True             
+        
+        for n in range(numCourses):
+            if not dfs(n): return []
+        return lst
+        
+
+        
