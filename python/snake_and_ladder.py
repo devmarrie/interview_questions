@@ -41,7 +41,6 @@ class Solution:
 
         board.reverse() #to make sure it is rightfully indexed
         def valToPst(val):
-            # can use a hash map that stores val:[r,c]
             r = (val - 1) // bLen
             c = (val - 1) % bLen if r % 2 == 0 else bLen - 1 - (val - 1) % bLen
             return [r,c]
