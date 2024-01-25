@@ -33,3 +33,37 @@
 
 # Input: board = [[-1,-1],[-1,3]]
 # Output: 1
+from collections import deque
+from typing import List
+class Solution:
+    def snakesAndLadders(self, board: List[List[int]]) -> int:
+        bLen = len(board) # since its an n*n
+
+        board.reverse() #to make sure it is rightfully indexed
+        def valToPst(val):
+            # can use a hash map that stores val:[r,c]
+            r = (val - 1) // bLen
+            c = (val - 1) % bLen if r % 2 == 0 else bLen - 1 - (val - 1) % bLen
+            return [r,c]
+ 
+        q = deque() #[val, moves]
+        q.append([1,0])
+        visit = set() #stores visited values on the board
+
+        while q:
+            v, m = q.popleft()
+
+            for i in range(1,7):
+                nextBox = v + i
+                r, c = valToPst(nextBox)
+                if board[r][c] != -1:
+                    nextBox = board[r][c] #found a snake or ladder
+                if nextBox == bLen * bLen:
+                    return m + 1  
+                if nextBox not in visit:
+                    visit.add(nextBox)
+                    q.append([nextBox, m + 1])   
+        return -1  
+
+                
+        
