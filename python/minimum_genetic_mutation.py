@@ -21,3 +21,27 @@
 
 # Input: startGene = "AACCGGTT", endGene = "AAACGGTA", bank = ["AACCGGTA","AACCGCTA","AAACGGTA"]
 # Output: 2
+from collections import deque
+from typing import List
+
+class Solution:
+    def minMutation(self, startGene: str, endGene: str, bank: List[str]) -> int:
+        choice = set(['A', 'C', 'G', 'T'])
+        q = deque()
+        q.append([startGene, 0])
+        visited = set(startGene)
+
+        while q:
+            gene, count = q.popleft()
+            if gene == endGene:
+                return count
+            for i, s in enumerate(gene):
+                for c in choice:
+                    if s != c:
+                        new_gene = gene[:i] + c + gene[i+1:]
+                        if new_gene in bank and new_gene not in visited:
+                            q.append([new_gene, count + 1])
+                            visited.add(new_gene)
+        return -1
+
+
