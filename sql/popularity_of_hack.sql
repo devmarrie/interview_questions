@@ -10,3 +10,13 @@
 -- India	    7.5
 -- UK	        4.333
 -- Switzerland	1
+
+with cte as (
+select e.id, e.location, h.popularity
+from facebook_employees e
+inner join facebook_hack_survey h
+on e.id = employee_id
+)
+select location, avg(popularity) as avg_popularity
+from cte
+group by location
