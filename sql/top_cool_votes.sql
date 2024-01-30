@@ -6,3 +6,12 @@
 -- business_name	review_text
 -- Roka Akor	    I hate to admit it, but it had been a long while since my last visit to Roka Akor. I deserve a hand slap. But last week, I had the perfect excuse to p
 -- Lunardis	    This is the nicest grocery store in the city. I actually met my wife at this grocery store while shopping for avocados.
+
+with cte as (
+select business_name,review_text,cool,
+    dense_rank() over(order by cool desc) as rnk
+from yelp_reviews
+)
+select business_name, review_text
+from cte 
+where rnk = 1;
