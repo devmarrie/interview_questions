@@ -19,27 +19,50 @@
 # Input: beginWord = "hit", endWord = "cog", wordList = ["hot","dot","dog","lot","log"]
 # Output: 0
 # Explanation: The endWord "cog" is not in wordList, therefore there is no valid transformation sequence.
-
+from collections import deque
+from typing import List
 class Solution:
     def ladderLength(self, beginWord: str, endWord: str, wordList: List[str]) -> int:
-        q = deque()
-        q.append([beginWord, 1])
-        wordSet = set([beginWord])
-        nei = defaultdict(list)
-        wordList.append(beginWord)
-        for word in wordList: #this is the trick
-            for l in range(len(word)):
-                pattern = word[:l] + "*" + word[l+1:] 
-                nei[pattern].append(word)
-        while q:
-            for i in range(len(q)): #limits the checks to len of q
-                val, count = q.popleft()
-                if val == endWord:
-                    return count
-                for x in range(len(val)):
-                    pattern_x = val[:x] + '*' + val[x+1:]
-                    for neiWord in nei:
-                        if neiWord not in wordSet:
-                            wordSet.add(neiWord)
-                            q.append([neiWord, count + 1])
+        # q = deque()
+        # q.append([beginWord, 1])
+        # wordSet = set([beginWord])
+        # nei = defaultdict(list)
+        # wordList.append(beginWord)
+        # for word in wordList: #this is the trick
+        #     for l in range(len(word)):
+        #         pattern = word[:l] + "*" + word[l+1:] 
+        #         nei[pattern].append(word)
+        # while q:
+        #     for i in range(len(q)): #limits the checks to len of q
+        #         val, count = q.popleft()
+        #         if val == endWord:
+        #             return count
+        #         for x in range(len(val)):
+        #             pattern_x = val[:x] + '*' + val[x+1:]
+        #             for neiWord in nei:
+        #                 if neiWord not in wordSet:
+        #                     wordSet.add(neiWord)
+        #                     q.append([neiWord, count + 1])
+        # return 0
+        
+        if endWord not in wordList:
+            return 0
+
+        wordList = set(wordList)
+        queue = deque([(beginWord, 1)])
+
+        while queue:
+            current_word, length = queue.popleft()
+
+            for i in range(len(current_word)):
+                for char in 'abcdefghijklmnopqrstuvwxyz':
+                    next_word = current_word[:i] + char + current_word[i+1:]
+
+                    if next_word == endWord:
+                        return length + 1
+
+                    if next_word in wordList:
+                        wordList.remove(next_word)
+                        queue.append((next_word, length + 1))
+
         return 0
