@@ -1,0 +1,9 @@
+-- Find the top business categories based on the total number of reviews. Output the category along with the total number of reviews. Order by total reviews in descending order.
+-- Table: yelp_business
+-- First 5 rows of Expected Output:
+-- category	review_cnt
+-- Automotive	32
+-- Auto Detailing	4
+-- Restaurants	1703
+-- Event Planning & Services	162
+-- Food Delivery Services	30
