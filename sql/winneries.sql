@@ -12,3 +12,11 @@
 -- Pine Ridge
 -- Hopler
 -- Bella Piazza
+
+SELECT winery
+FROM winemag_p1
+WHERE description REGEXP '([^a-zA-Z0-9_]|^)plum([^a-zA-Z0-9_]|$)' OR
+      description REGEXP '([^a-zA-Z0-9_]|^)cherry([^a-zA-Z0-9_]|$)' OR
+      description REGEXP '([^a-zA-Z0-9_]|^)rose([^a-zA-Z0-9_]|$)' OR
+      description REGEXP '([^a-zA-Z0-9_]|^)hazelnut([^a-zA-Z0-9_]|$)'
+ORDER BY winery;
