@@ -16,3 +16,21 @@
 
 # Input: nums = [1]
 # Output: [[1]]
+
+from typing import List
+class Solution:
+    def permute(self, nums: List[int]) -> List[List[int]]:
+        res = []
+
+        def backtrack(start):
+            if start == len(nums):
+                res.append(nums[:]) # append a copy of nums
+                return
+            else:
+                for i in range(start, len(nums)):
+                    nums[start], nums[i] = nums[i], nums[start] #swap
+                    backtrack(start + 1)
+                    nums[start], nums[i] = nums[i], nums[start] # return
+        
+        backtrack(0)
+        return res
