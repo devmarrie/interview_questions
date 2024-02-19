@@ -26,4 +26,20 @@
 
 # Input: candidates = [2], target = 1
 # Output: []
+from typing import List
+class Solution:
+    def combinationSum(self, candidates: List[int], target: int) -> List[List[int]]:
+        lst = []
+        def dfs(i, curr, total):
+            if total == target:
+                lst.append(curr[:])
+                return 
+            if total > target or i >= len(candidates):
+                return
+            curr.append(candidates[i])
+            dfs(i, curr, total + candidates[i])
+            curr.pop()
+            dfs(i+1, curr, total)
 
+        dfs(0,[],0) 
+        return lst           
