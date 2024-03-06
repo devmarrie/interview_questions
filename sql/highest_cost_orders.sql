@@ -2,3 +2,11 @@
 
 -- For simplicity, you can assume that every first name in the dataset is unique.
 -- Tables: customers, orders
+
+select c.first_name, o.order_date, sum(o.total_order_cost) as total_cost
+from customers c
+inner join orders o
+on c.id = o.cust_id
+where o.order_date >= '2019-02-01' and o.order_date <= '2019-05-01'
+group by o.order_date, c.first_name
+limit 1;
