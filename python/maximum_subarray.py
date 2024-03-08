@@ -21,3 +21,16 @@
 # Input: nums = [5,4,-1,7,8]
 # Output: 23
 # Explanation: The subarray [5,4,-1,7,8] has the largest sum 23.
+
+from typing import List
+
+def maxSubArray(self, nums: List[int]) -> int:
+    ttSum = nums[0] # base case 
+    currSum = 0
+
+    for n in nums:
+        if currSum < 0:
+            currSum = 0
+        currSum += n
+        ttSum = max(ttSum, currSum)
+    return ttSum
