@@ -1,0 +1,2 @@
+-- Find the second highest salary of employees.
+-- Table: employee
