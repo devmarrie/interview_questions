@@ -9,4 +9,18 @@
 -- pclass = 3: third_class
 
 -- Output the number of survivors and non-survivors by each class.
--- Table: titani
+-- Table: titanic
+
+with cte as (
+select passengerid, survived, 
+case when pclass = 1 then 'first_class' 
+     when pclass = 2 then 'second_class' 
+    else 'third_class' end as class
+from titanic
+)
+select survived,
+    sum(case when class = 'first_class' then 1 else 0 end) as first_class,
+    sum(case when class = 'second_class' then 1 else 0 end) as second_class,
+    sum(case when class = 'third_class' then 1 else 0 end) as third_class
+from cte
+group by survived
