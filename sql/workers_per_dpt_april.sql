@@ -4,3 +4,9 @@
 
 -- Sort records based on the number of workers in descending order.
 -- Table: worker
+
+select department, count(first_name) as num_workers
+from worker
+where month(joining_date) >= 4
+group by department
+order by 2 desc;
