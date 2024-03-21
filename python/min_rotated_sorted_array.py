@@ -29,4 +29,23 @@
 # Output: 11
 # Explanation: The original array was [11,13,15,17] and it was rotated 4 times. 
 
- 
+from typing import List
+class Solution:
+    def findMin(self, nums: List[int]) -> int:
+        l, r = 0, len(nums) - 1
+        curr = nums[0]
+
+        while l <= r:
+            # Becomes sorted
+            if nums[l] < nums[r]:
+                curr = min(curr, nums[l])
+
+            m = (l + r) // 2
+            curr = min(curr, nums[m])
+
+            # left side
+            if nums[m] >= nums[l]:
+                l = m + 1
+            else:
+                r = m - 1
+        return curr   
